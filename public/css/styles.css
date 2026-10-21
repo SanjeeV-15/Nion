@@ -240,11 +240,18 @@ main > * {
 /* ---------- text and buttons ---------- */
 
 .status {
-  margin: 0 0 22px;
+  margin: 20px 0 8px;
   min-height: 3em;
   font-size: 1.05rem;
   line-height: 1.5;
   color: var(--ink);
+}
+
+.hint {
+  margin: 0 0 22px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ink-dim);
 }
 
 .actions {
