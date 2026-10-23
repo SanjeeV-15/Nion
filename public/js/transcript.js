@@ -1,6 +1,14 @@
 // Turns a saved conversation into text: a title for the list, and a plain-text
 // transcript to copy. No browser features used, so it is easy to test.
 
+/** "claude-sonnet-5-5" -> "Claude Sonnet 5.5". Anything unfamiliar is shown as it is. */
+export function modelLabel(id) {
+  const match = /^claude-([a-z]+)-(\d+)-(\d+)$/.exec(String(id ?? ""));
+  if (!match) return String(id ?? "");
+  const [, name, major, minor] = match;
+  return `Claude ${name.charAt(0).toUpperCase()}${name.slice(1)} ${major}.${minor}`;
+}
+
 /** A short title: the first thing the person asked. */
 export function conversationTitle(conversation) {
   const first = conversation?.turns?.find((t) => t.role === "user")?.text ?? "Conversation";

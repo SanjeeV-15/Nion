@@ -80,3 +80,19 @@ test("the copied transcript is plain readable text with sources", () => {
   assert.match(text, /You: latest news\nNion: According to Reuters, talks resumed\.\nSources: Reuters story \(https:\/\/reuters\.com\/a\)/);
   assert.match(text, /You: thanks\nNion: Anytime\.$/);
 });
+
+test("the model that wrote an answer is saved with it", () => {
+  data = new Map();
+  const id = recordExchange(null, "What time is it?", "It is noon.", [], "claude-sonnet-5-5");
+  const turns = getConversation(id).turns;
+  assert.equal(turns[1].model, "claude-sonnet-5-5");
+  assert.equal(turns[0].model, undefined, "only answers have a model");
+});
+
+test("the 'how it works' panel is remembered once seen", async () => {
+  data = new Map();
+  const { hasSeenIntro, markIntroSeen } = await import("../public/js/storage.js");
+  assert.equal(hasSeenIntro(), false);
+  markIntroSeen();
+  assert.equal(hasSeenIntro(), true);
+});

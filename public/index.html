@@ -52,6 +52,20 @@
     <!-- A little onboarding: what to say once Nion is on. -->
     <p id="hint" class="hint">Then say “Hey Nion” and ask out loud, for example: “What are some places to eat near me?”</p>
 
+    <!-- Open the first time someone visits, closed after that. -->
+    <details id="how" class="how">
+      <summary>How Nion works</summary>
+      <ol>
+        <li>Tap <b>Turn on Nion</b> and allow the microphone.</li>
+        <li>Say “Hey Nion” and ask anything out loud. Nion answers out loud.</li>
+        <li>Talk at any time to interrupt it. Earphones work best.</li>
+        <li>Say “End the conversation” when you're done. <b>History</b> keeps a transcript.</li>
+      </ol>
+      <p class="how-models"><b>Who does what:</b> Chrome turns your voice into text and speaks the
+        answers. Claude Sonnet 5.5 writes each answer and searches the web. Claude Haiku 5.5 only
+        helps find your city if the map lookup fails.</p>
+    </details>
+
     <p><a class="history-link" href="/history.html">History</a></p>
 
     <p id="heard" class="heard" aria-live="polite" hidden></p>

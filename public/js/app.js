@@ -17,7 +17,7 @@ import { parseUtterance } from "./wake.js";
 import { isEcho, isInterruption, stripLeadingEcho, stripPhrase } from "./echo.js";
 import { createListener, speechInSupported } from "./speech-in.js";
 import { speak, stopSpeaking, speechOutSupported } from "./speech-out.js";
-import { getName, setName, clearName, clearConversations, recordExchange } from "./storage.js";
+import { getName, setName, clearName, clearConversations, recordExchange, hasSeenIntro, markIntroSeen } from "./storage.js";
 import { showState } from "./ui.js";
 import { geolocationPermission, getDevicePosition } from "./location.js";
 
@@ -30,6 +30,7 @@ const el = {
   debug: document.getElementById("debug"),
   orb: document.getElementById("orb"),
   copylog: document.getElementById("copylog"),
+  how: document.getElementById("how"),
 };
 
 const params = new URLSearchParams(location.search);
@@ -569,7 +570,7 @@ async function ask(question, oneShot, gps) {
     if (data.place) known.place = data.place; // worked out from GPS: remember it
     thread.push({ role: "assistant", content: reply });
     // Save it for the History screen (only questions that got an answer).
-    conversationId = recordExchange(conversationId, question, reply, data.sources);
+    conversationId = recordExchange(conversationId, question, reply, data.sources, data.model);
     const finished = await say(reply);
     // After an answer, leave the follow-up window open for a moment.
     if (finished && !session.active) openFollowUp();
@@ -605,6 +606,9 @@ el.convo.addEventListener("click", () => {
   return session.active ? endConversation() : startConversation();
 });
 
+// The short "how Nion works" panel is open the first time and closed after that.
+if (el.how) el.how.open = !hasSeenIntro();
+
 el.start.addEventListener("click", async () => {
   if (!speechInSupported || !speechOutSupported) {
     showProblem("This browser can't do speech. Please open Nion in Chrome.");
@@ -613,6 +617,8 @@ el.start.addEventListener("click", async () => {
   el.start.hidden = true;
   el.convo.hidden = false;
   showProblem("");
+  markIntroSeen();
+  if (el.how) el.how.open = false;
   listener.start();
 
   // First use: Nion asks your name once.

@@ -22,6 +22,25 @@ export function setName(name) {
   }
 }
 
+const INTRO_KEY = "nion.seenIntro";
+
+/** Has this person already been shown the short "how it works" panel? */
+export function hasSeenIntro() {
+  try {
+    return localStorage.getItem(INTRO_KEY) === "yes";
+  } catch {
+    return false;
+  }
+}
+
+export function markIntroSeen() {
+  try {
+    localStorage.setItem(INTRO_KEY, "yes");
+  } catch {
+    // Not saved: the panel simply opens again next time.
+  }
+}
+
 export function clearName() {
   try {
     localStorage.removeItem(NAME_KEY);
@@ -60,7 +79,7 @@ function writeConversations(list) {
  * Save a question and its answer. Pass the id of the conversation they belong to,
  * or null to start a new one. Returns the conversation's id.
  */
-export function recordExchange(conversationId, question, reply, sources = []) {
+export function recordExchange(conversationId, question, reply, sources = [], model = "") {
   const list = readConversations();
   const now = Date.now();
 
@@ -81,6 +100,7 @@ export function recordExchange(conversationId, question, reply, sources = []) {
     text: reply,
     at: now,
     ...(cleanSources.length ? { sources: cleanSources } : {}),
+    ...(model ? { model: String(model).slice(0, 60) } : {}),
   });
   conversation.updatedAt = now;
 

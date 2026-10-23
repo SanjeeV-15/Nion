@@ -102,7 +102,7 @@ app.post("/api/chat", async (req, res) => {
     const place = await resolveLocation(location);
     if (place?.failed) return res.json({ needsLocation: true, locationFailed: true });
 
-    const { reply, sources, usage, needsLocation } = await askNion({
+    const { reply, sources, usage, needsLocation, model } = await askNion({
       messages,
       context: { ...cleanContext(context), place: place?.text },
       location: place && !place.failed ? { city: place.city, region: place.region, country: place.country } : undefined,
@@ -115,7 +115,7 @@ app.post("/api/chat", async (req, res) => {
     );
     if (needsLocation) return res.json({ needsLocation: true });
     // Tell the page which place was worked out from GPS, so it can say it and use it next time.
-    res.json({ reply, sources, place: place?.fromGps ? place.text : undefined });
+    res.json({ reply, sources, model, place: place?.fromGps ? place.text : undefined });
   } catch (error) {
     console.error("Claude request failed:", error?.status ?? "", error?.message ?? error);
     res.status(502).json({ error: "I'm having trouble reaching my sources.", reason: classifyFailure(error) });

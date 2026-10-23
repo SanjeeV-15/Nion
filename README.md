@@ -123,6 +123,17 @@ devpost/  the plan: scope, PRD, spec and build checklist
 - Replies that search the web take 3 to 6 seconds. Nion says "one moment" when that happens.
 - Listing exactly five items is something Nion does nearly every time, not every time.
 
+## Credits and disclosures
+
+- **Built during the Build With AI: Basics submission period** (October 2026), starting from an
+  empty folder with the Devpost Learn Skill Pack. The skill folders (`.agents/`, `agent/`,
+  `.claude/skills/`) come from that pack; `devpost/` holds the planning documents it produced
+  (`scope.md`, `prd.md`, `spec.md`, `checklist.md`). The code was written with Claude Code.
+- **Place lookup** uses OpenStreetMap's Nominatim service. Place data © OpenStreetMap
+  contributors (ODbL). Nion sends a descriptive user agent and only a few requests.
+- **Answers** come from the Claude API (Anthropic) with its web search tool, using your own API key.
+- Open-source libraries: Express and the Anthropic SDK for Node.js, under their own licenses.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).

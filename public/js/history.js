@@ -6,7 +6,7 @@
 // conversations is always put on the page as plain text, never as HTML.
 
 import { listConversations, getConversation } from "./storage.js";
-import { conversationTitle, formatTranscript } from "./transcript.js";
+import { conversationTitle, formatTranscript, modelLabel } from "./transcript.js";
 
 const listEl = document.getElementById("list");
 const transcriptEl = document.getElementById("transcript");
@@ -103,6 +103,10 @@ function showTranscript(id) {
   for (const turn of conversation.turns) {
     const block = el("div", `turn turn-${turn.role}`);
     block.append(el("span", "who", turn.role === "user" ? "You" : "Nion"), el("p", "said", turn.text));
+
+    if (turn.role === "assistant" && turn.model) {
+      block.append(el("p", "sources", `Answered by ${modelLabel(turn.model)}`));
+    }
 
     if (turn.sources?.length) {
       const sources = el("p", "sources", "Sources: ");

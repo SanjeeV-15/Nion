@@ -254,6 +254,43 @@ main > * {
   color: var(--ink-dim);
 }
 
+.how {
+  margin: 0 auto 20px;
+  max-width: 28rem;
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ink-dim);
+  background: var(--glass);
+  border: 1px solid var(--glass-edge);
+  border-radius: 16px;
+}
+
+.how summary {
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.how summary:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.how ol {
+  margin: 10px 0;
+  padding-left: 1.3em;
+}
+
+.how b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.how-models {
+  margin: 0 0 4px;
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;

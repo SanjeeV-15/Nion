@@ -66,7 +66,7 @@ export async function askNion({ messages, context, location, model = MODEL }) {
 
   // Claude can decline a request. That is a normal reply with a special reason.
   if (response.stop_reason === "refusal") {
-    return { reply: "Sorry, I can't help with that one.", sources: [], searches, usage };
+    return { reply: "Sorry, I can't help with that one.", sources: [], searches, usage, model };
   }
 
   // The spoken words are the text after the last search result.
@@ -82,5 +82,6 @@ export async function askNion({ messages, context, location, model = MODEL }) {
     sources: [...sources.values()].slice(0, 8),
     searches,
     usage,
+    model, // shown under the answer in History, so you can see which model wrote it
   };
 }
